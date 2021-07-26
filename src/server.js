@@ -33,7 +33,8 @@ const ExportsValidator = require('./validator/exports');
 
 // uploads
 const uploads = require('./api/uploads');
-const StorageService = require('./services/storage/StorageService');
+const StorageService = require('./services/S3/StorageService'); // <== untuk s3 bucket
+// const StorageService = require('./services/storage/StorageService'); <== unutk local storage
 const UploadsValidator = require('./validator/uploads');
 
 const init = async () => {
@@ -41,9 +42,10 @@ const init = async () => {
   const notesService = new NotesService(collaborationsService);
   const usersService = new UsersService();
   const authenticationsService = new AuthenticationsService();
-  const storageService = new StorageService(
-    path.resolve(__dirname, 'api/uploads/file/images')
-  );
+  const storageService = new StorageService(); // <== untuk penyimpanan di s3 bucket
+  // const storageService = new StorageService(
+  //   path.resolve(__dirname, 'api/uploads/file/images')
+  // ); <== unutk local storage
 
   const server = Hapi.server({
     port: process.env.PORT,
