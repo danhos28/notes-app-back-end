@@ -37,9 +37,13 @@ const StorageService = require('./services/S3/StorageService'); // <== untuk s3 
 // const StorageService = require('./services/storage/StorageService'); <== unutk local storage
 const UploadsValidator = require('./validator/uploads');
 
+// cache
+const CacheService = require('./services/redis/CacheService');
+
 const init = async () => {
-  const collaborationsService = new CollaborationsService();
-  const notesService = new NotesService(collaborationsService);
+  const cacheService = new CacheService();
+  const collaborationsService = new CollaborationsService(cacheService);
+  const notesService = new NotesService(collaborationsService, cacheService);
   const usersService = new UsersService();
   const authenticationsService = new AuthenticationsService();
   const storageService = new StorageService(); // <== untuk penyimpanan di s3 bucket
